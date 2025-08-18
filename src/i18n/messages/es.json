@@ -12,6 +12,11 @@
     "NO_ACCOUNT": "¿No tienes una cuenta?",
     "CONTINUE_WITH": "O continúa con"
   },
+  "NAVBAR": {
+    "HOME": "Inicio",
+    "EVENTS": "Eventos",
+    "PROFILE": "Perfil"
+  },
   "COMMON": {
     "FORM": {
       "EMAIL": "Correo electrónico",

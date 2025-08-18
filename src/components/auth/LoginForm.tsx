@@ -9,6 +9,7 @@ import Button from '@/components/common/Button'
 import ButtonLink from '../common/ButtonLink'
 import InputField from '../common/InputField'
 import { getLoginValidationSchema } from '@/utils/schemas/authSchemas'
+import { useRouter } from 'next/navigation'
 
 interface FormData {
   email: string
@@ -18,6 +19,8 @@ interface FormData {
 export default function LoginForm() {
   const tAuth = useTranslations('AUTH')
   const tForm = useTranslations('COMMON.FORM')
+
+  const router = useRouter()
 
   // Obtenemos el esquema de validación con las traducciones
   const validationSchema = getLoginValidationSchema(tForm)
@@ -33,6 +36,7 @@ export default function LoginForm() {
   // Tipar el onSubmit con SubmitHandler
   const onSubmit: SubmitHandler<FormData> = data => {
     console.log('Form data:', data)
+    router.push('/events')
   }
 
   return (

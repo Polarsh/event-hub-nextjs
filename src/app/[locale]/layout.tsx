@@ -5,7 +5,7 @@ import AppConfig from '@/config/AppConfig'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { notFound } from 'next/navigation'
 import { routing } from '@/i18n/routing'
-import LanguageSwitcher from '@/components/common/LanguageSwitcher'
+import Navbar from '@/components/common/NavBar'
 
 export const metadata: Metadata = {
   title: AppConfig.APP_NAME,
@@ -30,10 +30,10 @@ export default async function RootLayout({
   return (
     <html lang='es' className='h-full'>
       <body className='antialiased'>
-        <div className='absolute top-4 right-4'>
-          <LanguageSwitcher />
-        </div>
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <NextIntlClientProvider>
+          <Navbar />
+          <div className='max-w-[1920px] mx-auto'>{children}</div>
+        </NextIntlClientProvider>
       </body>
     </html>
   )
