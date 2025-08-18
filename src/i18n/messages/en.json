@@ -2,5 +2,33 @@
   "Home": {
     "title": "Welcome to EventHub",
     "description": "The best platform for your events"
+  },
+  "AUTH": {
+    "LOGIN": "Log in",
+    "LOGIN_HERE": "Log in here",
+    "REGISTER": "Register",
+    "REGISTER_HERE": "Register here",
+    "FORGOT_PASSWORD": "Forgot your password?",
+    "NO_ACCOUNT": "Don't have an account?",
+    "CONTINUE_WITH": "Or continue with"
+  },
+  "COMMON": {
+    "FORM": {
+      "EMAIL": "Email",
+      "EMAIL_ENTER": "Enter your email",
+      "EMAIL_INVALID": "Invalid email address",
+      "EMAIL_REQUIRED": "Email is required",
+      "PASSWORD": "Password",
+      "PASSWORD_ENTER": "Enter your password",
+      "PASSWORD_MIN": "Password must be at least 6 characters",
+      "PASSWORD_REQUIRED": "Password is required",
+      "CONFIRM_PASSWORD": "Confirm Password",
+      "CONFIRM_PASSWORD_ENTER": "Confirm your password",
+      "CONFIRM_PASSWORD_MATCH": "Passwords must match",
+      "CONFIRM_PASSWORD_REQUIRED": "Confirm Password is required",
+      "USERNAME": "Username",
+      "USERNAME_ENTER": "Enter your username",
+      "USERNAME_REQUIRED": "Username is required"
+    }
   }
 }

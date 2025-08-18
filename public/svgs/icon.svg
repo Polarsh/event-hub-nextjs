@@ -1,0 +1,7 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fondo circular con borde -->
+  <circle cx="32" cy="32" r="30" fill="#16161a" stroke="#7f5af0" stroke-width="2"/>
+  
+  <!-- Texto centrado -->
+  <text x="50%" y="66%" font-family="Arial, sans-serif" font-size="32" fill="#7f5af0" text-anchor="middle" alignment-baseline="middle">EH</text>
+</svg>
