@@ -2,10 +2,9 @@
 
 import React from 'react'
 
-import EventsGrid from '@/components/event/EventGrid'
 import Page from '@/components/common/Page'
-
 import type { Event } from '@/types/Event'
+import EventsGrid from '@/components/event/EventGrid'
 
 export default function EventHome() {
   const events: Event[] = [
@@ -141,9 +140,7 @@ export default function EventHome() {
   return (
     <Page>
       <h1 className='sr-only hidden'>Eventos</h1>
-
-      <EventsGrid title={'Eventos destacados'} events={events.slice(0, 6)} />
-      <EventsGrid title={'Ultimos eventos'} events={events.slice(0, 3)} />
+      <EventsGrid title={'Buscar'} events={events} />
     </Page>
   )
 }

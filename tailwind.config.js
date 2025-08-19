@@ -9,14 +9,14 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        backgroundColor: '#16161a',
-        backgroundColorLight: '#242629',
-        backgroundColorWhite: '#e5e7eb',
-        primaryColor: '#7f5af0',
-        titleColor: '#fffffe',
-        textColor: '#94a1b2',
-        errorColor: '#ff6b6b',
-        successColor: '#4ade80',
+        backgroundColor: '#fffffe',
+        backgroundColorLight: '#d1d1e9',
+        strokeColor: '#2b2c34',
+        primaryColor: '#6246ea',
+        secondaryColor: '#d1d1e9',
+        titleColor: '#2b2c34',
+        textColor: '#2b2c34',
+        errorColor: '#e45858',
       },
       fontSize: {
         h1: ['33.18px', { lineHeight: '1.2', fontWeight: '700' }], // Bold

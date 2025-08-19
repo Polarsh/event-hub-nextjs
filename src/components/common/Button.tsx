@@ -1,3 +1,5 @@
+'use client'
+
 import {
   cloneElement,
   createElement,
@@ -9,12 +11,11 @@ import {
 
 type IconPosition = 'left' | 'right'
 
-enum ButtonStyle {
+export enum ButtonStyle {
   Fill = 'fill',
   Outline = 'outline',
   Text = 'text',
   Cancel = 'cancel',
-  Submit = 'submit',
 }
 
 type IconComp = ComponentType<SVGProps<SVGSVGElement>>
@@ -49,15 +50,13 @@ export default function Button({
 
   const variants = {
     [ButtonStyle.Fill]:
-      'bg-yellow-400 text-white hover:bg-yellow-400 focus-visible:outline-primary',
+      'bg-primaryColor text-white focus-visible:outline-primaryColor',
     [ButtonStyle.Outline]:
-      'bg-transparent text-yellow-400 border border-yellow-400 hover:bg-yellow-400 focus-visible:outline-yellow-400',
+      'bg-transparent text-primaryColor border border-primaryColor hover:bg-primaryColor hover:text-white focus-visible:outline-primaryColor',
     [ButtonStyle.Text]:
-      'text-yellow-400 hover:bg-yellow-400 focus-visible:outline-yellow-400',
+      'text-primaryColor hover:bg-primaryColor hover:text-white focus-visible:outline-primaryColor',
     [ButtonStyle.Cancel]:
-      'bg-red-600 text-white hover:bg-red-500 focus-visible:outline-red-600',
-    [ButtonStyle.Submit]:
-      'bg-blue-700 text-white hover:bg-blue-600 focus-visible:outline-blue-700',
+      'bg-errorColor text-white hover:bg-errorColor hover:text-white focus-visible:outline-errorColor',
   }
 
   const iconClasses = 'w-6 h-6'
@@ -76,7 +75,7 @@ export default function Button({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`${baseStyles} ${variants[variant]} ${className} ${fullWidth ? 'w-full' : 'w-fit'}`}>
+      className={`${baseStyles} ${variants[variant]} ${className} ${fullWidth ? 'w-full' : 'w-fit'} `}>
       {iconPosition === 'left' && renderIcon()}
       <span>{label}</span>
       {iconPosition === 'right' && renderIcon()}
