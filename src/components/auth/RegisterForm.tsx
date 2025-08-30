@@ -7,13 +7,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import Button from '@/components/common/Button'
 import InputField from '@/components/common/InputField'
 import { getRegisterValidationSchema } from '@/utils/schemas/authSchemas'
-
-interface FormData {
-  username: string
-  email: string
-  password: string
-  confirmPassword: string
-}
+import { useAuthenticator } from '@/context/AuthenticatorContext'
+import type { RegisterCredentials } from '@/types/AuthContext'
 
 export default function RegisterForm() {
   const tAuth = useTranslations('AUTH')
@@ -22,16 +17,28 @@ export default function RegisterForm() {
   // Obtenemos el esquema de validación con las traducciones
   const validationSchema = getRegisterValidationSchema(tForm)
 
+  const { register: registerUser } = useAuthenticator()
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({
+  } = useForm<RegisterCredentials>({
     resolver: yupResolver(validationSchema), // Usamos el esquema con traducciones
   })
 
-  const onSubmit = (data: any) => {
-    console.log('Form data:', data)
+  console.log(errors)
+
+  const onSubmit = async (data: RegisterCredentials) => {
+    try {
+      await registerUser({
+        username: data.username,
+        email: data.email,
+        password: data.password,
+      })
+    } catch (error) {
+      console.error('Error de login:', error)
+    }
   }
 
   return (

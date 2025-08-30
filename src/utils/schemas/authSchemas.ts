@@ -23,8 +23,5 @@ export const getRegisterValidationSchema = (t: (key: string) => string) => {
     password: Yup.string()
       .min(6, t('PASSWORD_MIN')) // Traducción para "La contraseña debe tener al menos 6 caracteres"
       .required(t('PASSWORD_REQUIRED')), // Traducción para "La contraseña es obligatoria"
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref('password')], t('CONFIRM_PASSWORD_MATCH')) // Traducción para "Las contraseñas no coinciden"
-      .required(t('CONFIRM_PASSWORD_REQUIRED')), // Traducción para "Confirmar contraseña es obligatorio"
   })
 }

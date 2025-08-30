@@ -1,7 +1,6 @@
 'use client'
 
 import { useForm } from 'react-hook-form'
-import type { SubmitHandler } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useTranslations } from 'next-intl'
 
@@ -9,34 +8,36 @@ import Button from '@/components/common/Button'
 import ButtonLink from '../common/ButtonLink'
 import InputField from '../common/InputField'
 import { getLoginValidationSchema } from '@/utils/schemas/authSchemas'
-import { useRouter } from 'next/navigation'
-
-interface FormData {
-  email: string
-  password: string
-}
+import { useAuthenticator } from '@/context/AuthenticatorContext'
+import type { LoginCredentials } from '@/types/AuthContext'
 
 export default function LoginForm() {
   const tAuth = useTranslations('AUTH')
   const tForm = useTranslations('COMMON.FORM')
 
-  const router = useRouter()
-
   // Obtenemos el esquema de validación con las traducciones
   const validationSchema = getLoginValidationSchema(tForm)
+
+  const { login: loginUser } = useAuthenticator()
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({
+  } = useForm<LoginCredentials>({
     resolver: yupResolver(validationSchema),
   })
 
   // Tipar el onSubmit con SubmitHandler
-  const onSubmit: SubmitHandler<FormData> = data => {
-    console.log('Form data:', data)
-    router.push('/events')
+  const onSubmit = async (data: LoginCredentials) => {
+    try {
+      await loginUser({
+        email: data.email,
+        password: data.password,
+      })
+    } catch (error) {
+      console.error('Error de login:', error)
+    }
   }
 
   return (

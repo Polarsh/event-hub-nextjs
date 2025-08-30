@@ -3,16 +3,30 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from '@/i18n/navigation'
-import { MenuIcon } from 'lucide-react'
+import {
+  ChevronDown,
+  CircleUserIcon,
+  HomeIcon,
+  LoaderIcon,
+  LogOutIcon,
+  MenuIcon,
+} from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
 import LanguageSwitcher from '@/components/common/LanguageSwitcher'
+import { useAuthenticator } from '@/context/AuthenticatorContext'
+import { useRouter } from 'next/navigation'
 
 export default function Navbar() {
   const pathname = usePathname()
+  const router = useRouter()
+
   const tNavBar = useTranslations('NAVBAR')
 
+  const { currentUser, logout, isLoading } = useAuthenticator()
+
   const [isOpen, setIsOpen] = useState(false)
+  const [isDropdownOpen, setDropdownOpen] = useState(false)
 
   const toggleMenu = () => {
     setIsOpen(!isOpen)
@@ -27,11 +41,28 @@ export default function Navbar() {
       title: tNavBar('EVENTS'),
       href: '/events',
     },
+  ]
+
+  // Array de opciones para el dropdown
+  const dropdownOptions = [
     {
-      title: tNavBar('PROFILE'),
-      href: '/user/profile',
+      icon: <HomeIcon className='w-[20px] h-[20px]' />,
+      label: 'Profile',
+      function: () => {
+        router.push('/')
+      },
+    },
+    {
+      icon: <LogOutIcon className='w-[20px] h-[20px] text-secondary-main' />,
+      label: 'Log out',
+      function: logout,
     },
   ]
+
+  // Toggle del dropdown
+  const toggleDropdown = () => {
+    setDropdownOpen(prev => !prev)
+  }
 
   return (
     <nav className='bg-backgroundColor text-white p-4 shadow-md'>
@@ -64,6 +95,53 @@ export default function Navbar() {
               </Link>
             )
           })}
+
+          {!isLoading ? (
+            <>
+              {currentUser ? (
+                <div className='relative text-textColor'>
+                  <div
+                    className='flex gap-[8px] items-center cursor-pointer'
+                    onClick={toggleDropdown}>
+                    <CircleUserIcon className='w-[24px] h-[24px] flex-shrink-0 cursor-pointer' />
+                    <label className='font-content text-body font-bold text-secondary-main hidden md:flex lg:flex whitespace-nowrap'>
+                      asas
+                    </label>
+                    <div className='relative hidden md:block lg:block '>
+                      <ChevronDown
+                        className={`w-[24px] h-[24px] flex-shrink-0 cursor-pointer transform transition-all duration-300 ${
+                          isDropdownOpen ? 'rotate-180' : ''
+                        }`}
+                      />
+                    </div>
+                  </div>
+                  {isDropdownOpen && (
+                    <div className='absolute top-8 right-0 w-[200px] bg-white shadow-lg rounded-md overflow-hidden'>
+                      <ul className='flex flex-col divide-y divide-grey-main'>
+                        {dropdownOptions.map((option, index) => (
+                          <li
+                            key={index}
+                            className='flex items-center px-2 py-4 cursor-pointer text-primary-main hover:text-secondary-main font-content text-body'
+                            onClick={option.function}>
+                            {option.icon}
+                            <span className='ml-2'>{option.label}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link
+                  href={'/auth/login'}
+                  className={`text-link hover:text-primaryColor hover:font-bold text-textColor`}>
+                  Iniciar Sesión
+                </Link>
+              )}
+            </>
+          ) : (
+            <LoaderIcon className='text-primaryColor animate-spin' />
+          )}
 
           {/* LanguageSwitcher */}
           <div className='relative'>
