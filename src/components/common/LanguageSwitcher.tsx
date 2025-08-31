@@ -1,7 +1,7 @@
 'use client'
 
+import { usePathname } from '@/i18n/navigation'
 import { useState } from 'react'
-import { usePathname } from 'next/navigation'
 import Flag from 'react-world-flags'
 
 export default function LanguageSwitcher() {
