@@ -50,10 +50,10 @@ export default function InputField({
           type={inputType}
           disabled={disabled}
           {...(register ? register(name as any) : {})}
-          className={`p-2 text-titleColor focus:outline-none placeholder:text-textColor
+          className={`p-2 border-b-2 text-titleColor focus:outline-none placeholder:text-textColor
           w-full overflow-hidden whitespace-normal text-wrap
-          ${errorMessage ? 'text-errorColor border-errorColor' : ''}
-          ${disabled ? 'bg-backgroundColorWhite text-backgroundColor placeholder:text-backgroundColor cursor-not-allowed' : ''}
+          ${errorMessage ? 'text-errorColor border-errorColor' : 'border-gray-300'}
+          ${disabled ? 'bg-backgroundColorLight text-backgroundColor placeholder:text-backgroundColor cursor-not-allowed' : ''}
         `}
           {...props}
         />

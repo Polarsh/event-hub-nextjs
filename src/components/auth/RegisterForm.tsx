@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 import Button from '@/components/common/Button'
-import InputField from '@/components/common/InputField'
+import InputField from '@/components/common/Form/InputField'
 import { getRegisterValidationSchema } from '@/utils/schemas/authSchemas'
 import { useAuthenticator } from '@/context/AuthenticatorContext'
 import type { RegisterCredentials } from '@/types/AuthContext'

@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl'
 
 import Button from '@/components/common/Button'
 import ButtonLink from '../common/ButtonLink'
-import InputField from '../common/InputField'
+import InputField from '../common/Form/InputField'
 import { getLoginValidationSchema } from '@/utils/schemas/authSchemas'
 import { useAuthenticator } from '@/context/AuthenticatorContext'
 import type { LoginCredentials } from '@/types/AuthContext'
