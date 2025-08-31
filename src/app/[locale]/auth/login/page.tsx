@@ -18,7 +18,7 @@ export default function LoginPage() {
         {tAuth('LOGIN')}
       </h2>
 
-      <Card>
+      <Card className='flex flex-col gap-6'>
         <LoginForm />
         <ThirdPartyLogin />
 

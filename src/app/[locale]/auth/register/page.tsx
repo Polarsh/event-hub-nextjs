@@ -18,7 +18,7 @@ export default function RegisterPage() {
         {tAuth('REGISTER')}
       </h2>
 
-      <Card>
+      <Card className='flex flex-col gap-6'>
         <RegisterForm />
         <ThirdPartyLogin />
 

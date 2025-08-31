@@ -32,7 +32,7 @@ export default async function RootLayout({
 
   return (
     <html lang='es' className='h-full'>
-      <body className='antialiased'>
+      <body className='antialiased h-full'>
         <NextIntlClientProvider>
           <ClientProvidersWrapper>
             <Navbar />

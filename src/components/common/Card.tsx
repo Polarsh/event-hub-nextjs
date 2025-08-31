@@ -11,7 +11,7 @@ export default function Card({
 }: CardProps) {
   return (
     <div
-      className={`${className ?? ''} p-4 md:p-6 lg:p-8 rounded-[4px] space-y-4 md:space-y-6 lg:space-y-8 `}>
+      className={`${className ?? ''} p-4 md:p-6 lg:p-8 rounded-[4px] shadow-sm`}>
       {children}
     </div>
   )

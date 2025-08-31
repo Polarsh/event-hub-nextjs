@@ -1,5 +1,7 @@
-import Link, { type LinkProps } from 'next/link'
+import { Link } from '@/i18n/navigation'
 import type { ReactElement } from 'react'
+
+export type LinkProps = React.ComponentProps<typeof Link>
 
 type ButtonLinkProps = LinkProps & {
   label: string
@@ -13,7 +15,8 @@ export default function ButtonLink({
   ...props
 }: ButtonLinkProps): ReactElement {
   return (
-    <Link href={href} className={className} {...props}>
+    // Agregamos el prefetch explícitamente y con un valor booleano
+    <Link href={href} className={className} prefetch={false} {...props}>
       {label}
     </Link>
   )
