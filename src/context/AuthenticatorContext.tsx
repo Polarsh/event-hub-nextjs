@@ -16,7 +16,7 @@ import type {
   LoginCredentials,
   User,
 } from '@/types/AuthContext'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/i18n/navigation'
 
 // --- Contexto y Provider ---
 const AuthenticatorContext = createContext<
@@ -43,30 +43,28 @@ export const AuthenticatorProvider: React.FC<{ children: ReactNode }> = ({
   })
 
   // 2. Mutación para el Login, usando mutateAsync
-  const { mutateAsync: performLoginAsync, isPending: isLoggingIn } = useMutation<
-    User,
-    Error,
-    LoginCredentials
-  >({
-    mutationFn: loginUser,
-    onSuccess: loggedInUser => {
-      queryClient.setQueryData(['verifyUser'], loggedInUser)
-      router.push('/')
-    },
-    onError: error => {
-      console.error(error)
-      queryClient.setQueryData(['verifyUser'], null)
-    },
-  })
+  const { mutateAsync: performLoginAsync, isPending: isLoggingIn } =
+    useMutation<User, Error, LoginCredentials>({
+      mutationFn: loginUser,
+      onSuccess: loggedInUser => {
+        queryClient.setQueryData(['verifyUser'], loggedInUser)
+        router.push('/account/dashboard')
+      },
+      onError: error => {
+        console.error(error)
+        queryClient.setQueryData(['verifyUser'], null)
+      },
+    })
 
   // 3. Mutación para el Logout, usando mutateAsync
-  const { mutateAsync: performLogoutAsync, isPending: isLoggingOut } = useMutation({
-    mutationFn: logoutUser,
-    onSuccess: () => {
-      queryClient.setQueryData(['verifyUser'], null)
-      router.push('/')
-    },
-  })
+  const { mutateAsync: performLogoutAsync, isPending: isLoggingOut } =
+    useMutation({
+      mutationFn: logoutUser,
+      onSuccess: () => {
+        queryClient.setQueryData(['verifyUser'], null)
+        router.push('/')
+      },
+    })
 
   // 4. Mutación para el Registro, usando mutateAsync
   const { mutateAsync: performRegisterAsync, isPending: isRegistering } =
@@ -74,7 +72,7 @@ export const AuthenticatorProvider: React.FC<{ children: ReactNode }> = ({
       mutationFn: registerUser,
       onSuccess: newUser => {
         queryClient.setQueryData(['verifyUser'], newUser)
-        router.push('/')
+        router.push('/account/dashboard')
       },
       onError: error => {
         queryClient.setQueryData(['verifyUser'], null)

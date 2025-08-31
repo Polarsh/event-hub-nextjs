@@ -1,8 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
-import { usePathname } from '@/i18n/navigation'
+import { Link, usePathname, useRouter } from '@/i18n/navigation'
 import {
   ChevronDown,
   CircleUserIcon,
@@ -15,7 +14,6 @@ import { useTranslations } from 'next-intl'
 
 import LanguageSwitcher from '@/components/common/LanguageSwitcher'
 import { useAuthenticator } from '@/context/AuthenticatorContext'
-import { useRouter } from 'next/navigation'
 
 export default function Navbar() {
   const pathname = usePathname()
@@ -49,7 +47,8 @@ export default function Navbar() {
       icon: <HomeIcon className='w-[20px] h-[20px]' />,
       label: 'Profile',
       function: () => {
-        router.push('/')
+        toggleDropdown()
+        router.push('/account/dashboard')
       },
     },
     {
@@ -65,7 +64,7 @@ export default function Navbar() {
   }
 
   return (
-    <nav className='bg-backgroundColor text-white p-4 shadow-md'>
+    <nav className='bg-backgroundColor text-white p-4 shadow-md sticky top-0'>
       <div className='max-w-[1920px] mx-auto flex items-center justify-between'>
         {/* Logo */}
         <Link href='/' className='text-titleColor text-4xl font-bold'>
