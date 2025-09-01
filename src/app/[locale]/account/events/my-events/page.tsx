@@ -3,7 +3,7 @@
 import React from 'react'
 
 import EventsGrid from '@/components/event/EventGrid'
-import useEventView from '@/hooks/useEventView'
+import useEventView from '@/hooks/useMyEvent'
 
 export default function MyEvents() {
   const { myEvents, isPendingMyEvents } = useEventView()

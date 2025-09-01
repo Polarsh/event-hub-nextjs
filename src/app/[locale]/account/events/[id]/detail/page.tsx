@@ -5,7 +5,7 @@ import React from 'react'
 import { Link } from '@/i18n/navigation'
 import { ArrowLeft, CalendarDays, ShieldAlert, Tag } from 'lucide-react'
 
-import useEventView from '@/hooks/useEventView'
+import useEventView from '@/hooks/useMyEvent'
 import LoadingScreen from '@/components/common/Loaders/LoadingScreen'
 import ImageComponent from '@/components/common/Image'
 

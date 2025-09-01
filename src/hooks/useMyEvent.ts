@@ -12,7 +12,7 @@ export default function useEventView() {
 
   const { id } = useParams()
 
-  // Consulta 1: Obtiene la lista de todos los eventos
+  // Consulta 1: Obtiene el detalle de un evento
   const {
     data: myEventDetail,
     isPending: isPendingMyEventDetail,
@@ -28,7 +28,7 @@ export default function useEventView() {
     enabled: !!id,
   })
 
-  // Consulta 2: Obtiene la lista de eventos del usuario
+  // Consulta 2: Obtiene la lista de eventos del usuario logueado
   const {
     data: myEvents,
     isPending: isPendingMyEvents,
