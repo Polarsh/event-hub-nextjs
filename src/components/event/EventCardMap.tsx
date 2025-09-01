@@ -1,6 +1,5 @@
 'use client'
 
-import Card from '../common/Card'
 import EventActionsCard from './EventActionsCard'
 
 import type { Event } from '@/types/Event'
@@ -10,25 +9,29 @@ import dynamic from 'next/dynamic'
 const EventMap = dynamic(async () => await import('./EventMap'), { ssr: false })
 
 export default function EventCardMap({ event }: { event: Event }) {
-  const { location, latitude, longitude } = event
+  const location = 'Auditorio Principal'
+  const latitude = '-12.045834647353233'
+  const longitude = ' -77.03053815091477'
 
   return (
-    <Card className='w-full space-y-6 bg-backgroundColorLight lg:p-6 shadow-lg'>
-      <div className='text-center'>
-        <p className='text-link text-textColor'>{location}</p>
-        <p className='text-body text-textColor mt-1'>{event.date}</p>
-      </div>
+    <div className='rounded-xl border border-strokeColor/60 p-4 bg-backgroundColor/60 space-y-4'>
+      <h3 className='text-titleColor font-semibold mb-2'>Ubicación</h3>
+
+      <p className='text-sm text-textColor'>
+        {location}
+        <br />
+      </p>
 
       <EventMap latitude={latitude} longitude={longitude} location={location} />
 
       <EventActionsCard
         eventId={event.id}
-        eventName={event.name}
+        eventName={event.title}
         eventStats={{ attendees: 0, likes: 0, shares: 0 }}
       />
 
       {/* Botón de asistencia junto con la información del organizador */}
       <AttendButton eventId={event.id} />
-    </Card>
+    </div>
   )
 }
