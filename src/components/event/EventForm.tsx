@@ -136,7 +136,7 @@ export default function EventForm({
 
       <div className=' w-full flex justify-end gap-6'>
         {mode === 'edit' && (
-          <Link href={`/events/${defaultValues.id}`}>
+          <Link href={`/account/events/${defaultValues._id}/detail`}>
             <Button label='Ver Detalles' variant={ButtonStyle.Outline} />
           </Link>
         )}

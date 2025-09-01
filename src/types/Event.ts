@@ -14,7 +14,7 @@ export type Event = {
 
 // Este es para el modo creación y edición
 export type EventDataProps = {
-  id?: string
+  _id?: string
   title: string
   category: string
   summary: string

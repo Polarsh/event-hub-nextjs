@@ -19,7 +19,7 @@ export default function ImageComponent({ imageUrl, name }: EventProps) {
       src={src}
       alt={`Portada de ${name}`}
       fill
-      className='object-cover'
+      className='object-cover z-0'
       sizes='100vw'
       priority={false}
       onError={handleImageError}

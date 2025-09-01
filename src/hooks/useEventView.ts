@@ -3,22 +3,30 @@
 import { useQuery } from '@tanstack/react-query'
 
 import { useAuthenticator } from '@/context/AuthenticatorContext'
-import { fetchMyEvents } from '@/services/EventServices'
+import { fetchMyEvents, getEventDetail } from '@/services/EventServices'
 import type { Event } from '@/types/Event'
+import { useParams } from 'next/navigation'
 
-export default function useEventsList() {
+export default function useEventView() {
   const { currentUser } = useAuthenticator()
 
+  const { id } = useParams()
+
   // Consulta 1: Obtiene la lista de todos los eventos
-  /* const {
-    data: events,
-    isPending: isPendingEvents,
-    isError: isErrorEvents,
-    error: errorEvents,
-  } = useQuery<EventDataProps[]>({
-    queryKey: ['events-list'],
-    queryFn: fetchAllEvents,
-  }) */
+  const {
+    data: myEventDetail,
+    isPending: isPendingMyEventDetail,
+    isError: isErrorMyEventDetail,
+    error: errorMyEventDetail,
+  } = useQuery({
+    queryKey: ['my-event-detail', id],
+    queryFn: async () => {
+      const eventId = id as string
+
+      return await getEventDetail(eventId)
+    },
+    enabled: !!id,
+  })
 
   // Consulta 2: Obtiene la lista de eventos del usuario
   const {
@@ -33,10 +41,10 @@ export default function useEventsList() {
   })
 
   return {
-    /*  events,
-    isPendingEvents,
-    isErrorEvents,
-    errorEvents, */
+    myEvent: myEventDetail,
+    isPendingMyEventDetail,
+    isErrorMyEventDetail,
+    errorMyEventDetail,
     myEvents: myEvents ?? [],
     isPendingMyEvents,
     isErrorMyEvents,

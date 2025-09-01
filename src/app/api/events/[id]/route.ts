@@ -10,7 +10,11 @@ export async function GET(req: any, { params }: { params: any }) {
     await connectDB()
 
     // Busca el evento y verifica que no esté borrado
-    const event = await Event.findOne({ _id: id, isDeleted: false })
+    const event = await Event.findOne({ _id: id, isDeleted: false }).populate([
+      'creator',
+      'category',
+      'restriction',
+    ])
 
     if (!event) {
       return NextResponse.json({ msg: 'Evento no encontrado' }, { status: 404 })

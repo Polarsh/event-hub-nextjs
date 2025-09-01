@@ -1,13 +1,7 @@
 'use client'
 
 import React from 'react'
-import {
-  ArrowRight,
-  CalendarDays,
-  Pencil,
-  ShieldAlert,
-  Tag,
-} from 'lucide-react'
+import { ArrowRight, CalendarDays, ShieldAlert, Tag } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import type { Event } from '@/types/Event'
 import ImageComponent from '../common/Image'
@@ -25,7 +19,7 @@ export default function EventCard({
 
   return (
     <Link
-      href={isEditMode ? `/account/events/${id}/edit` : `/events/${id}`}
+      href={isEditMode ? `/account/events/${id}/detail` : `/events/${id}`}
       aria-label={
         isEditMode
           ? `Editar evento: ${title}`
@@ -85,34 +79,21 @@ export default function EventCard({
       <div className='p-4'>
         <h3
           title={title}
-          className='text-titleColor text-base md:text-lg font-bold line-clamp-2'>
+          className='text-titleColor line-clamp-1 text-base md:text-lg font-bold'>
           {title}
         </h3>
 
         <div className='mt-3 flex items-center justify-end'>
-          {isEditMode ? (
-            <span
-              className='
+          <span
+            className='
                 inline-flex items-center gap-2 rounded-[8px] bg-primaryColor
                 px-3 py-2 text-sm font-bold text-white
                 transition-[transform,filter] duration-200
                 group-hover:brightness-110 motion-safe:group-hover:-translate-y-0.5
               '>
-              Editar
-              <Pencil className='h-5 w-5' />
-            </span>
-          ) : (
-            <span
-              className='
-                inline-flex items-center gap-2 rounded-[8px] bg-primaryColor
-                px-3 py-2 text-sm font-bold text-white
-                transition-[transform,filter] duration-200
-                group-hover:brightness-110 motion-safe:group-hover:-translate-y-0.5
-              '>
-              Ver detalles
-              <ArrowRight className='h-5 w-5' />
-            </span>
-          )}
+            Ver detalles
+            <ArrowRight className='h-5 w-5' />
+          </span>
         </div>
       </div>
     </Link>

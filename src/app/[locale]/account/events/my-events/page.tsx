@@ -1,11 +1,12 @@
 'use client'
 
-import EventsGrid from '@/components/event/EventGrid'
-import useEventsList from '@/hooks/useEventsList'
 import React from 'react'
 
+import EventsGrid from '@/components/event/EventGrid'
+import useEventView from '@/hooks/useEventView'
+
 export default function MyEvents() {
-  const { myEvents, isPendingMyEvents } = useEventsList()
+  const { myEvents, isPendingMyEvents } = useEventView()
 
   return (
     <div>
