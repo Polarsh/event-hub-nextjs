@@ -1,17 +1,11 @@
+/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 'use client'
 
 import React, { useState, useRef, useEffect } from 'react'
-import {
-  format,
-  addDays,
-  isBefore,
-  isAfter,
-  startOfDay,
-  type Locale,
-} from 'date-fns'
+import { format, addDays, isBefore, isAfter, startOfDay } from 'date-fns'
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 
-import { enUS, es } from 'date-fns/locale'
+import { es } from 'date-fns/locale'
 import type {
   FieldError,
   FieldErrorsImpl,
@@ -54,13 +48,6 @@ export default function DatePickerField({
 
   const errorMessage = (error as FieldError)?.message
 
-  // Mapear el idioma de i18n a los locales de date-fns
-  const locales: Record<string, Locale> = {
-    en: enUS,
-    es,
-  }
-  // const { i18n } = useTranslation();
-  // const locale = locales[i18n.language] || enUS;
   const locale = es
 
   // Convertir minDate y maxDate en fechas reales
@@ -92,8 +79,20 @@ export default function DatePickerField({
     }
   }, [popoverRef])
 
-  const changeMonth = (offset: number) => {
-    setCurrentMonth(prev => new Date(prev.setMonth(prev.getMonth() + offset)))
+  const nextMonth = () => {
+    setCurrentMonth(prev => {
+      const next = new Date(prev)
+      next.setMonth(next.getMonth() + 1)
+      return next
+    })
+  }
+
+  const previousMonth = () => {
+    setCurrentMonth(prev => {
+      const previous = new Date(prev)
+      previous.setMonth(previous.getMonth() - 1)
+      return previous
+    })
   }
 
   const generateDays = () => {
@@ -192,9 +191,7 @@ export default function DatePickerField({
             <div className='flex justify-between items-center gap-[10px] py-[16px]'>
               <button
                 type='button'
-                onClick={() => {
-                  changeMonth(-1)
-                }}
+                onClick={previousMonth}
                 className={`p-1 ${
                   isMonthDisabled(-1) ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
@@ -208,9 +205,7 @@ export default function DatePickerField({
               </span>
               <button
                 type='button'
-                onClick={() => {
-                  changeMonth(1)
-                }}
+                onClick={nextMonth}
                 className={`p-1 ${
                   isMonthDisabled(1) ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
@@ -231,9 +226,14 @@ export default function DatePickerField({
             {/* Días del mes */}
             <div className='grid grid-cols-7 gap-1 py-2'>
               {generateDays().map((date, index) => {
+                // Aseguramos que 'date' no sea null ni undefined
+                const validDate = date ?? new Date(0)
+
                 const isDisabled =
-                  (minDateParsed && isBefore(date, minDateParsed)) ||
-                  (maxDateParsed && isAfter(date, maxDateParsed))
+                  minDateParsed &&
+                  isBefore(validDate, minDateParsed) &&
+                  maxDateParsed &&
+                  isAfter(validDate, maxDateParsed)
 
                 return (
                   <button
@@ -251,7 +251,7 @@ export default function DatePickerField({
                           : 'opacity-0'
                       }`}
                     onClick={() => {
-                      if (!isDisabled) {
+                      if (!isDisabled && date) {
                         handleDayClick(date)
                       }
                     }}

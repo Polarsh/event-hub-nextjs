@@ -48,9 +48,9 @@ export default function FilterForBigScreen({
       <div className='flex w-full items-start justify-between gap-8'>
         {/* Pills de filtros */}
         <div className='flex items-start gap-4' ref={menuRef}>
-          {filterOptions.map(category => {
+          {filterOptions.map((category: any) => {
             const isCategoryFiltered =
-              category.children.filter(f =>
+              category.children.filter((f: any) =>
                 isFilterActive(category.id, f.value)
               ).length > 0
 
@@ -90,7 +90,7 @@ export default function FilterForBigScreen({
                     className='absolute z-30 w-[200px] overflow-auto bg-white'
                     role='menu'>
                     <ul className='flex flex-col gap-2 py-2'>
-                      {category.children.map(filter => {
+                      {category.children.map((filter: any) => {
                         const active = isFilterActive(category.id, filter.value)
                         return (
                           <li key={filter.value} className='px-2 py-1'>
@@ -153,7 +153,7 @@ export default function FilterForBigScreen({
           {/* Popover */}
           {isSortOpen && (
             <ul role='listbox' className='absolute z-30 w-full bg-white'>
-              {sortOptions.map(opt => {
+              {sortOptions.map((opt: any) => {
                 const selected = isSortActive(opt.value)
                 return (
                   <li key={opt.value}>
@@ -184,9 +184,9 @@ export default function FilterForBigScreen({
       {activeFilters?.length > 0 && (
         <div className='flex-wrap inline-flex w-full items-center gap-2'>
           <div className='flex flex-wrap gap-2'>
-            {filterOptions.map(category =>
+            {filterOptions.map((category: any) =>
               category.children.map(
-                filter =>
+                (filter: any) =>
                   // Solo renderiza el chip si el filtro está activo
                   isFilterActive(category.id, filter.value) && (
                     <button

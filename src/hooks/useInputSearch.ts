@@ -38,7 +38,7 @@ export const useInputSearch = () => {
   }, [inputSearch, queryClient])
 
   // Funciones para manejar el input
-  const onChangeInput = useCallback(e => {
+  const onChangeInput = useCallback((e: any) => {
     setInputSearch(e.target.value)
   }, [])
 

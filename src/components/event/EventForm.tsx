@@ -18,7 +18,7 @@ import LoadingModal from '../common/Loaders/LoadingModal'
 
 type EventFormProps = {
   onSubmit: (data: any) => void
-  defaultValues: EventDataProps
+  defaultValues: EventDataProps | undefined
   mode: 'add' | 'edit'
 }
 
@@ -184,7 +184,7 @@ export default function EventForm({
 
       <div className=' w-full flex justify-end gap-6'>
         {mode === 'edit' && (
-          <Link href={`/account/events/${defaultValues._id}/detail`}>
+          <Link href={`/account/events/${defaultValues?._id}/detail`}>
             <Button label='Ver Detalles' variant={ButtonStyle.Outline} />
           </Link>
         )}

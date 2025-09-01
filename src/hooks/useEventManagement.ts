@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 'use client'
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
@@ -27,8 +28,8 @@ export const eventMockValues = {
   imageUrl: 'https://picsum.photos/1000/600',
   videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', // URL de ejemplo
   date: new Date('2025-09-01T09:00:00Z'),
-  category: null,
-  restriction: null,
+  category: '',
+  restriction: '',
 }
 
 export default function useEventManagement({ id }: { id?: string }) {
@@ -43,9 +44,7 @@ export default function useEventManagement({ id }: { id?: string }) {
   } = useQuery({
     queryKey: QUERY_KEYS.eventDetail(id),
     queryFn: async () => {
-      // Retorna datos mock si no hay ID, pero solo para mantener el tipo de retorno
-      if (!id) return eventMockValues
-      return await getEventData(id)
+      return await getEventData(id!)
     },
     enabled: !!id,
   })
