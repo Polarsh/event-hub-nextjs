@@ -35,7 +35,7 @@ export const sidebarRoutes: SidebarRoute[] = [
   },
   {
     key: 'Mis Eventos',
-    path: '/account/events',
+    path: '/account/events/my-events',
     Icon: Calendar,
   },
   {
@@ -49,7 +49,6 @@ export const sidebarRoutes: SidebarRoute[] = [
     Icon: Settings,
     disabled: true,
   },
-  // Puedes agregar más rutas según sea necesario
 ]
 
 export const SidebarUser = () => {
