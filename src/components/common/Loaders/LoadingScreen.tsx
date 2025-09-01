@@ -1,4 +1,4 @@
-import IconLogo from './IconLogo'
+import IconLogo from '../IconLogo'
 
 export default function LoadingScreen() {
   return (
