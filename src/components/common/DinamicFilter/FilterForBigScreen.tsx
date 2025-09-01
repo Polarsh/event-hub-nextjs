@@ -1,6 +1,5 @@
-import { Check, ChevronDown, SortAsc, XIcon } from 'lucide-react'
+import { ArrowUpDown, Check, ChevronDown, XIcon } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
-import LoadingCircle from '../Loaders/LoadingCircle'
 
 export default function FilterForBigScreen({
   filterOptions,
@@ -36,6 +35,10 @@ export default function FilterForBigScreen({
     }
   }, [])
 
+  if (isLoading) {
+    return null
+  }
+
   return (
     <div className='w-full flex flex-col gap-6'>
       {/* Título */}
@@ -45,97 +48,87 @@ export default function FilterForBigScreen({
       <div className='flex w-full items-start justify-between gap-8'>
         {/* Pills de filtros */}
         <div className='flex items-start gap-4' ref={menuRef}>
-          {isLoading ? (
-            <LoadingCircle />
-          ) : (
-            filterOptions.map(category => {
-              const isCategoryFiltered =
-                category.children.filter(f =>
-                  isFilterActive(category.id, f.value)
-                ).length > 0
+          {filterOptions.map(category => {
+            const isCategoryFiltered =
+              category.children.filter(f =>
+                isFilterActive(category.id, f.value)
+              ).length > 0
 
-              return (
-                <div key={category.name} className='relative'>
-                  <button
-                    aria-expanded={openMenu === category.name}
-                    onClick={() => {
-                      setOpenMenu(v =>
-                        v === category.name ? null : category.name
-                      )
-                    }}
-                    className={`
+            return (
+              <div key={category.name} className='relative'>
+                <button
+                  aria-expanded={openMenu === category.name}
+                  onClick={() => {
+                    setOpenMenu(v =>
+                      v === category.name ? null : category.name
+                    )
+                  }}
+                  className={`
                         flex items-center justify-between w-[200px] h-[40px] p-2 rounded-[4px] border-2 
                         border-primaryColor text-link font-bold
                         text-textColor hover:text-primaryColor
                         ${openMenu === category.name && 'bg-primaryColor text-white hover:text-white'}
                         ${isCategoryFiltered && 'bg-primaryColor text-white hover:text-white'}
                       `}>
-                    {/* Texto e ícono */}
-                    <span className='inline-flex items-center gap-2'>
-                      <category.icon className='h-6 w-6' />
-                      {category.name}
-                    </span>
+                  {/* Texto e ícono */}
+                  <span className='inline-flex items-center gap-2'>
+                    <category.icon className='h-6 w-6' />
+                    {category.name}
+                  </span>
 
-                    {/* Flecha */}
-                    <ChevronDown
-                      className={`h-6 w-6 transform transition-transform duration-300 ${
-                        openMenu === category.name ? 'rotate-180' : 'rotate-0'
-                      }`}
-                    />
-                  </button>
+                  {/* Flecha */}
+                  <ChevronDown
+                    className={`h-6 w-6 transform transition-transform duration-300 ${
+                      openMenu === category.name ? 'rotate-180' : 'rotate-0'
+                    }`}
+                  />
+                </button>
 
-                  {/* Panel dropdown */}
-                  {openMenu === category.name && (
-                    <div
-                      className='absolute z-30 w-[200px] overflow-auto bg-white'
-                      role='menu'>
-                      <ul className='flex flex-col gap-2 py-2'>
-                        {category.children.map(filter => {
-                          const active = isFilterActive(
-                            category.id,
-                            filter.value
-                          )
-                          return (
-                            <li key={filter.value} className='px-2 py-1'>
-                              <label
-                                htmlFor={`${category.name}-${filter.value}`}
-                                className='flex items-center gap-2 cursor-pointer select-none'>
-                                {/* Input nativo oculto (controla el estado) */}
-                                <input
-                                  id={`${category.name}-${filter.value}`}
-                                  type='checkbox'
-                                  checked={active}
-                                  onChange={() =>
-                                    handleFilterChange(
-                                      category.id,
-                                      filter.value
-                                    )
-                                  }
-                                  className='peer sr-only'
-                                />
+                {/* Panel dropdown */}
+                {openMenu === category.name && (
+                  <div
+                    className='absolute z-30 w-[200px] overflow-auto bg-white'
+                    role='menu'>
+                    <ul className='flex flex-col gap-2 py-2'>
+                      {category.children.map(filter => {
+                        const active = isFilterActive(category.id, filter.value)
+                        return (
+                          <li key={filter.value} className='px-2 py-1'>
+                            <label
+                              htmlFor={`${category.name}-${filter.value}`}
+                              className='flex items-center gap-2 cursor-pointer select-none'>
+                              {/* Input nativo oculto (controla el estado) */}
+                              <input
+                                id={`${category.name}-${filter.value}`}
+                                type='checkbox'
+                                checked={active}
+                                onChange={() =>
+                                  handleFilterChange(category.id, filter.value)
+                                }
+                                className='peer sr-only'
+                              />
 
-                                {/* Caja visual del checkbox */}
-                                <span
-                                  className='w-4 h-4 rounded-[4px] flex items-center justify-center border border-gray-400 bg-white transition peer-checked:bg-primaryColor peer-checked:border-transparent'
-                                  aria-hidden='true'>
-                                  <Check className='h-3 w-3 text-white transition' />
-                                </span>
+                              {/* Caja visual del checkbox */}
+                              <span
+                                className='w-4 h-4 rounded-[4px] flex items-center justify-center border border-gray-400 bg-white transition peer-checked:bg-primaryColor peer-checked:border-transparent'
+                                aria-hidden='true'>
+                                <Check className='h-3 w-3 text-white transition' />
+                              </span>
 
-                                {/* Texto */}
-                                <span className='text-body text-textColor hover:text-primaryColor'>
-                                  {filter.label}
-                                </span>
-                              </label>
-                            </li>
-                          )
-                        })}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              )
-            })
-          )}
+                              {/* Texto */}
+                              <span className='text-body text-textColor hover:text-primaryColor'>
+                                {filter.label}
+                              </span>
+                            </label>
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )
+          })}
         </div>
 
         {/* Columna Sort by (menú) */}
@@ -154,7 +147,7 @@ export default function FilterForBigScreen({
                 ? `Ordenar por (${activeSorts.length})`
                 : `Ordenar por`}
             </span>
-            <SortAsc className='h-5 w-5 ' />
+            <ArrowUpDown className='h-5 w-5 ' />
           </button>
 
           {/* Popover */}
