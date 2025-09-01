@@ -1,7 +1,6 @@
 import mongoose, { type Document, Schema } from 'mongoose'
 import bcrypt from 'bcryptjs'
 
-// --- Corrección 1: Sintaxis de método de interfaz ---
 interface IUser extends Document {
   username: string
   email: string
@@ -38,6 +37,7 @@ UserSchema.methods.matchPassword = async function (
 }
 
 // --- Corrección 3: Declaración y exportación del modelo ---
-const User = mongoose.models.User || mongoose.model<IUser>('User', UserSchema)
+const User =
+  mongoose.models.User || mongoose.model<IUser>('User', UserSchema, 'users')
 
 export default User

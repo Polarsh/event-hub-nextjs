@@ -43,7 +43,7 @@ export default function DatePickerField({
 }: DatePickerProps) {
   const popoverRef = useRef<HTMLDivElement>(null)
 
-  const loadedDate = watch(name)
+  const loadedDate = new Date(watch(name))
 
   const [isOpen, setIsOpen] = useState(false)
   const [selectedDate, setSelectedDate] = useState<Date | null>(
@@ -169,6 +169,7 @@ export default function DatePickerField({
       {/* Botón de apertura y Popover manual */}
       <div className='relative' ref={popoverRef}>
         <button
+          type='button'
           onClick={() => {
             setIsOpen(!isOpen)
           }}
@@ -190,6 +191,7 @@ export default function DatePickerField({
             {/* Encabezado de mes */}
             <div className='flex justify-between items-center gap-[10px] py-[16px]'>
               <button
+                type='button'
                 onClick={() => {
                   changeMonth(-1)
                 }}
@@ -205,6 +207,7 @@ export default function DatePickerField({
                 }).replace(/^\w/, (c: string) => c.toUpperCase())}
               </span>
               <button
+                type='button'
                 onClick={() => {
                   changeMonth(1)
                 }}
@@ -235,6 +238,7 @@ export default function DatePickerField({
                 return (
                   <button
                     key={index}
+                    type='button'
                     className={`flex h-[42px] items-center justify-center text-body text-textColor transition
                       ${
                         date

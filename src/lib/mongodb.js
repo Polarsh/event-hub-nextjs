@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { ensureModelsAreLoaded } from './loadModels'
 
 const MONGO_URI = process.env.MONGO_URI
 
@@ -10,10 +11,8 @@ const connectDB = async () => {
   }
 
   try {
-    await mongoose.connect(MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    })
+    ensureModelsAreLoaded()
+    await mongoose.connect(MONGO_URI)
     console.log('Conexión a MongoDB establecida')
   } catch (error) {
     console.error('Error al conectar a MongoDB', error)

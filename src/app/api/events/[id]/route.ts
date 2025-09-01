@@ -3,10 +3,11 @@ import connectDB from '@/lib/mongodb'
 import Event from '@/models/Event'
 import { getUserIdFromToken } from '@/utils/auth'
 
-export async function GET(req, { params }) {
+export async function GET(req: any, { params }: { params: any }) {
   try {
+    const { id } = await params
+
     await connectDB()
-    const { id } = params
 
     // Busca el evento y verifica que no esté borrado
     const event = await Event.findOne({ _id: id, isDeleted: false })
@@ -25,9 +26,9 @@ export async function GET(req, { params }) {
   }
 }
 
-export async function PUT(req, { params }) {
-  const creatorId = await getUserIdFromToken()
-  if (!creatorId) {
+export async function PUT(req: any, { params }: { params: any }) {
+  const creator = await getUserIdFromToken()
+  if (!creator) {
     return NextResponse.json({ msg: 'No autorizado' }, { status: 401 })
   }
 
@@ -38,7 +39,7 @@ export async function PUT(req, { params }) {
 
     const eventToUpdate = await Event.findOne({
       _id: id,
-      creatorId,
+      creator,
       isDeleted: false,
     })
     if (!eventToUpdate) {
@@ -65,9 +66,9 @@ export async function PUT(req, { params }) {
   }
 }
 
-export async function DELETE(req, { params }) {
-  const creatorId = await getUserIdFromToken()
-  if (!creatorId) {
+export async function DELETE(req: any, { params }: { params: any }) {
+  const creator = await getUserIdFromToken()
+  if (!creator) {
     return NextResponse.json({ msg: 'No autorizado' }, { status: 401 })
   }
 
@@ -77,7 +78,7 @@ export async function DELETE(req, { params }) {
 
     const eventToDelete = await Event.findOne({
       _id: id,
-      creatorId,
+      creator,
       isDeleted: false,
     })
     if (!eventToDelete) {

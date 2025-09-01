@@ -19,8 +19,8 @@ export async function GET() {
 }
 
 export async function POST(req: any) {
-  const creatorId = await getUserIdFromToken()
-  if (!creatorId) {
+  const creator = await getUserIdFromToken()
+  if (!creator) {
     return NextResponse.json({ msg: 'No autorizado' }, { status: 401 })
   }
 
@@ -29,25 +29,25 @@ export async function POST(req: any) {
 
     const {
       title,
-      categoryId,
+      category,
       summary,
       description,
       imageUrl,
       videoUrl,
       date,
-      restrictionId,
+      restriction,
     } = await req.json()
 
     const newEvent = new Event({
       title,
-      categoryId,
+      category,
       summary,
       description,
       imageUrl,
       videoUrl,
       date: new Date(date),
-      restrictionId,
-      creatorId,
+      restriction,
+      creator,
     })
 
     const savedEvent = await newEvent.save()

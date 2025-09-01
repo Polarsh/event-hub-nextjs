@@ -1,60 +1,120 @@
 'use client'
 
-import { Link, useRouter } from '@/i18n/navigation'
-import { ArrowRight } from 'lucide-react'
 import React from 'react'
-
+import {
+  ArrowRight,
+  CalendarDays,
+  Pencil,
+  ShieldAlert,
+  Tag,
+} from 'lucide-react'
+import { Link } from '@/i18n/navigation'
 import type { Event } from '@/types/Event'
-import TagPill from './TagPill'
 import ImageComponent from '../common/Image'
 
-export default function EventCard({ event }: { event: Event }) {
-  const { id, name, date, tags, imageUrl } = event
+type EventCardProps = {
+  event: Event
+  isEditMode?: boolean
+}
 
-  const router = useRouter()
+export default function EventCard({
+  event,
+  isEditMode = false,
+}: EventCardProps) {
+  const { id, title, date, category, imageUrl, restriction } = event
 
   return (
-    <div
-      onClick={() => {
-        router.push(`/events/${id}`)
-      }}
-      className='group hover:cursor-pointer relative flex flex-col overflow-hidden rounded-[4px] border-2 border-strokeColor bg-backgroundColor shadow-md transition hover:shadow-lg focus-within:ring-2 focus-within:ring-my-purple/60'>
-      {/* Imagen */}
-      <div className='relative h-[200px] w-full'>
-        <ImageComponent imageUrl={imageUrl} name={name} />
+    <Link
+      href={isEditMode ? `/account/events/${id}/edit` : `/events/${id}`}
+      aria-label={
+        isEditMode
+          ? `Editar evento: ${title}`
+          : `Ver detalles del evento: ${title}`
+      }
+      className='
+        group relative flex flex-col overflow-hidden rounded-2xl
+        bg-backgroundColor border border-strokeColor/60
+        shadow-sm transition-[transform,box-shadow,filter] duration-300
+        motion-safe:hover:scale-[1.02] hover:shadow-lg
+        focus:outline-none focus-visible:ring-2 focus-visible:ring-my-purple/60
+      '>
+      {/* Glow / borde degradado al hover */}
+      <div
+        className='
+          pointer-events-none absolute inset-0 rounded-2xl
+          opacity-0 group-hover:opacity-100 transition-opacity duration-300
+          ring-1 ring-transparent
+          [background:linear-gradient(120deg,rgba(127,90,240,.15),rgba(255,255,255,0))_padding-box,linear-gradient(120deg,rgba(127,90,240,.4),rgba(127,90,240,0))_border-box]
+          border border-transparent
+        '
+      />
 
-        {/* Gradiente sutil para legibilidad y brillo al hover */}
-        <div className='pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent opacity-80 transition-opacity group-hover:opacity-90' />
-      </div>
-      {/* Contenido */}
-      <div className='flex flex-col gap-4 p-4 '>
-        <h3 className='text-h3 line-clamp-1 text-titleColor font-bold'>
-          {name}
-        </h3>
+      {/* Media */}
+      <div className='relative w-full aspect-[16/9] overflow-hidden'>
+        <ImageComponent imageUrl={imageUrl} name={title} />
+        {/* Zoom suave de imagen */}
+        <div className='absolute inset-0 will-change-transform transition-transform duration-500 motion-safe:group-hover:scale-105' />
 
-        {/* Tags - Pills */}
-        <TagPill tags={tags.slice(0, 3)} />
+        {/* Gradiente para legibilidad */}
+        <div className='pointer-events-none absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent' />
 
-        <div className='flex items-center justify-between'>
-          {/* Fecha */}
-          <span className='rounded-[4px] text-small font-medium text-textColor'>
+        {/* Badges sobre la imagen */}
+        <div className='absolute left-3 right-3 top-3 flex items-center gap-2'>
+          <span className='inline-flex items-center gap-1 rounded-full bg-black/55 backdrop-blur px-2.5 py-1 text-xs font-semibold text-white'>
+            <Tag className='h-3.5 w-3.5' />
+            {category}
+          </span>
+          {restriction && (
+            <span className='inline-flex items-center gap-1 rounded-full bg-red-600/90 px-2.5 py-1 text-xs font-semibold text-white'>
+              <ShieldAlert className='h-3.5 w-3.5' />
+              {restriction}
+            </span>
+          )}
+        </div>
+
+        {/* Fecha pill */}
+        <div className='absolute bottom-3 left-3'>
+          <span className='inline-flex items-center gap-1.5 rounded-full bg-white/90 text-black backdrop-blur px-2.5 py-1 text-xs font-semibold shadow'>
+            <CalendarDays className='h-3.5 w-3.5' />
             {date}
           </span>
-
-          {/* Boton */}
-          <div className='flex items-center justify-end'>
-            <Link
-              href={`events/${id}`}
-              className='inline-flex items-center gap-2 rounded-[4px] bg-primaryColor px-3 py-2 text-small font-bold text-white transition hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#7f5af0] focus-visible:ring-offset-zinc-900'>
-              Ver detalles
-              <ArrowRight className='text-white h-6 w-6' />
-            </Link>
-          </div>
         </div>
       </div>
 
-      {/* Borde brillante sutil al hover */}
-      <div className='pointer-events-none absolute inset-0 rounded-[4px] ring-1 ring-white/5 transition group-hover:ring-white/10' />
-    </div>
+      {/* Contenido */}
+      <div className='p-4'>
+        <h3
+          title={title}
+          className='text-titleColor text-base md:text-lg font-bold line-clamp-2'>
+          {title}
+        </h3>
+
+        <div className='mt-3 flex items-center justify-end'>
+          {isEditMode ? (
+            <span
+              className='
+                inline-flex items-center gap-2 rounded-[8px] bg-primaryColor
+                px-3 py-2 text-sm font-bold text-white
+                transition-[transform,filter] duration-200
+                group-hover:brightness-110 motion-safe:group-hover:-translate-y-0.5
+              '>
+              Editar
+              <Pencil className='h-5 w-5' />
+            </span>
+          ) : (
+            <span
+              className='
+                inline-flex items-center gap-2 rounded-[8px] bg-primaryColor
+                px-3 py-2 text-sm font-bold text-white
+                transition-[transform,filter] duration-200
+                group-hover:brightness-110 motion-safe:group-hover:-translate-y-0.5
+              '>
+              Ver detalles
+              <ArrowRight className='h-5 w-5' />
+            </span>
+          )}
+        </div>
+      </div>
+    </Link>
   )
 }

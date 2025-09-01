@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
 
 export default function page() {
-  redirect('/account/events/create')
+  redirect('/account/events/my-events')
 }

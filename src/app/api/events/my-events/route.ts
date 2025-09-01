@@ -4,10 +4,10 @@ import Event from '@/models/Event'
 import { getUserIdFromToken } from '@/utils/auth'
 
 export async function GET() {
-  const creatorId = await getUserIdFromToken()
+  const creator = await getUserIdFromToken()
 
   // Si no se encuentra el ID, el usuario no está autenticado
-  if (!creatorId) {
+  if (!creator) {
     return NextResponse.json({ msg: 'No autorizado' }, { status: 401 })
   }
 
@@ -15,7 +15,11 @@ export async function GET() {
     await connectDB()
 
     // Buscamos solo los eventos que coincidan con el ID del creador
-    const myEvents = await Event.find({ creatorId, isDeleted: false })
+    const myEvents = await Event.find({ creator, isDeleted: false }).populate([
+      'creator',
+      'category',
+      'restriction',
+    ])
 
     return NextResponse.json(myEvents, { status: 200 })
   } catch (error) {

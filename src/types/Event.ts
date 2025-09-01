@@ -1,17 +1,26 @@
+// Este es usado para mostrar informacion
 export type Event = {
   id: string
-  user: UserProps
-  name: string
+  user: string
+  title: string
+  category: string
+  summary: string
   description: string
-  location: string
-  latitude: string
-  longitude: string
-  date: string
+  videoUrl: string
   imageUrl: string
-  tags: string[]
+  date: string
+  restriction: string
 }
 
-type UserProps = {
-  userId: string
-  name: string
+// Este es para el modo creación y edición
+export type EventDataProps = {
+  id?: string
+  title: string
+  category: string
+  summary: string
+  description: string
+  videoUrl: string
+  imageUrl: string
+  date: Date
+  restriction: string
 }
