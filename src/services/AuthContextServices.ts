@@ -5,7 +5,6 @@ import httpHelper from '@/utils/httpHelper'
 // Función para hacer login
 export const loginUser = async (credentials: LoginCredentials) => {
   const data = await httpHelper.post('/users/login', credentials)
-  console.log(data)
 
   return data
 }
@@ -13,7 +12,6 @@ export const loginUser = async (credentials: LoginCredentials) => {
 // Función para hacer registro
 export const registerUser = async (credentials: RegisterCredentials) => {
   const data = await httpHelper.post('/users/register', credentials)
-  console.log(data)
 
   return data
 }

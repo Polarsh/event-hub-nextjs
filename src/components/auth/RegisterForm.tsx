@@ -27,8 +27,6 @@ export default function RegisterForm() {
     resolver: yupResolver(validationSchema), // Usamos el esquema con traducciones
   })
 
-  console.log(errors)
-
   const onSubmit = async (data: RegisterCredentials) => {
     try {
       await registerUser({

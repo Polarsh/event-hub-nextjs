@@ -8,8 +8,6 @@ export async function POST(req) {
 
   const { username, email, password } = await req.json()
 
-  console.log(await req.json())
-
   try {
     const userExists = await User.findOne({ email })
     if (userExists) {
