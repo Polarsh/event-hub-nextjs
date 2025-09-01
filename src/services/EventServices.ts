@@ -62,6 +62,7 @@ export const fetchFilteredEvents = async (filters: any): Promise<Event[]> => {
 export const fetchEventSummary = async (): Promise<{
   latestCreated: Event[]
   upcomingEvents: Event[]
+  mostAttended: Event[]
 }> => {
   const rawData = await httpHelper.get('/events/summary')
 
@@ -75,8 +76,13 @@ export const fetchEventSummary = async (): Promise<{
     formatEvent(event)
   )
 
+  // Mapea y formatea los eventos próximos
+  const mostAttended = rawData?.mostAttended?.map((event: any) =>
+    formatEvent(event)
+  )
+
   // Devuelve el objeto con los dos arrays ya formateados
-  return { latestCreated, upcomingEvents }
+  return { latestCreated, upcomingEvents, mostAttended }
 }
 
 // Función para obtener los eventos del usuario

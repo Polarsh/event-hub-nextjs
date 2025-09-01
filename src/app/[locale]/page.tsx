@@ -8,11 +8,18 @@ import Page from '@/components/common/Page'
 import useEventSummary from '@/hooks/useEventSummary'
 
 export default function Home() {
-  const { lastestEvent, upcomingEvents, isPending } = useEventSummary()
+  const { lastestEvent, upcomingEvents, mostAttended, isPending } =
+    useEventSummary()
 
   return (
     <Page>
       <h1 className='sr-only hidden'>Eventos</h1>
+
+      <EventsGrid
+        title={'Más populares'}
+        events={mostAttended}
+        isLoading={isPending}
+      />
 
       <EventsGrid
         title={'Recien creados'}

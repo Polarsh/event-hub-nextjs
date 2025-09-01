@@ -15,6 +15,7 @@ export default function useEventSummary() {
   return {
     lastestEvent: events?.latestCreated ?? [],
     upcomingEvents: events?.upcomingEvents ?? [],
+    mostAttended: events?.mostAttended ?? [],
     isPending,
   }
 }
