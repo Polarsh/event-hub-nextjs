@@ -45,7 +45,7 @@ export default function Navbar() {
   const dropdownOptions = [
     {
       icon: <HomeIcon className='w-[20px] h-[20px]' />,
-      label: 'Profile',
+      label: 'Mi cuenta',
       function: () => {
         toggleDropdown()
         router.push('/account/dashboard')
@@ -53,7 +53,7 @@ export default function Navbar() {
     },
     {
       icon: <LogOutIcon className='w-[20px] h-[20px] text-secondary-main' />,
-      label: 'Log out',
+      label: 'Cerrar sesión',
       function: logout,
     },
   ]
