@@ -12,6 +12,7 @@
 
 # python env
 /venv/
+/venv/*
 
 # testing
 /coverage
