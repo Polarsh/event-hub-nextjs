@@ -6,7 +6,19 @@ import httpHelper from '@/utils/httpHelper'
 export const getEventData = async (id: string): Promise<EventDataProps> => {
   const data = await httpHelper.get(`/events/${id}`)
 
-  return data
+  const eventData = {
+    id: data._id,
+    title: data.title,
+    summary: data.summary,
+    description: data.summary,
+    videoUrl: data.videoUrl,
+    imageUrl: data.imageUrl,
+    date: new Date(data.date),
+    category: data.category._id,
+    restriction: data.restriction._id,
+  }
+
+  return eventData
 }
 
 export const getEventDetail = async (id: string): Promise<Event> => {

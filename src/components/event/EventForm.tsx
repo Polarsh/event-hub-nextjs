@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -16,6 +16,11 @@ import { Link } from '@/i18n/navigation'
 import { Wand2 } from 'lucide-react'
 import LoadingModal from '../common/Loaders/LoadingModal'
 
+interface Option {
+  value: string
+  label: string
+}
+
 type EventFormProps = {
   onSubmit: (data: any) => void
   defaultValues: EventDataProps | undefined
@@ -28,6 +33,15 @@ export default function EventForm({
   mode,
 }: EventFormProps) {
   const [isLoading, setIsLoading] = useState(false)
+
+  const [options, setOptions] = useState<{
+    categories: Option[]
+    restrictions: Option[]
+  }>({
+    categories: [],
+    restrictions: [],
+  })
+  const [optionIsLoading, setOptionIsLoading] = useState(true)
 
   const {
     register,
@@ -75,6 +89,36 @@ export default function EventForm({
     }
   }
 
+  // Función para obtener los filtros de la API y unificarlos
+  const fetchFormOptions = async () => {
+    setOptionIsLoading(true)
+
+    try {
+      const response = await fetch('/api/filters')
+      if (!response.ok) {
+        throw new Error('Error al obtener los filtros de la API')
+      }
+      const data = await response.json()
+
+      setOptions(data)
+    } catch (error) {
+      console.error(error)
+      setOptions({ categories: [], restrictions: [] }) // si falla, arrays vacíos
+    } finally {
+      setOptionIsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    void fetchFormOptions()
+  }, [])
+
+  if (optionIsLoading) {
+    return null
+  }
+
+  console.log('defaultValues', defaultValues)
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
       <div className='grid grid-cols-2 gap-6'>
@@ -91,12 +135,7 @@ export default function EventForm({
         <CustomSelect
           label={'Categoria'}
           name='category'
-          options={[
-            { value: '1', label: 'A' },
-            { value: '2', label: 'B' },
-            { value: '3', label: 'C' },
-            { value: '4', label: 'D' },
-          ]}
+          options={options.categories}
           register={register}
           setValue={setValue}
           watch={watch}
@@ -119,12 +158,7 @@ export default function EventForm({
         <CustomSelect
           label={'Restricción'}
           name='restriction'
-          options={[
-            { value: '1', label: 'A' },
-            { value: '2', label: 'B' },
-            { value: '3', label: 'C' },
-            { value: '4', label: 'D' },
-          ]}
+          options={options.restrictions}
           register={register}
           setValue={setValue}
           watch={watch}
