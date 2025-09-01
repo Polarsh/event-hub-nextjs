@@ -104,7 +104,7 @@ export default function Navbar() {
                     onClick={toggleDropdown}>
                     <CircleUserIcon className='w-[24px] h-[24px] flex-shrink-0 cursor-pointer' />
                     <label className='font-content text-body font-bold text-secondary-main hidden md:flex lg:flex whitespace-nowrap'>
-                      asas
+                      {currentUser.username}
                     </label>
                     <div className='relative hidden md:block lg:block '>
                       <ChevronDown
