@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -13,6 +13,8 @@ import CustomSelect from '../common/Form/Select'
 import { eventSchema } from '@/utils/schemas/eventSchema'
 import type { EventDataProps } from '@/types/Event'
 import { Link } from '@/i18n/navigation'
+import { Wand2 } from 'lucide-react'
+import LoadingModal from '../common/Loaders/LoadingModal'
 
 type EventFormProps = {
   onSubmit: (data: any) => void
@@ -25,6 +27,8 @@ export default function EventForm({
   defaultValues,
   mode,
 }: EventFormProps) {
+  const [isLoading, setIsLoading] = useState(false)
+
   const {
     register,
     handleSubmit,
@@ -35,6 +39,41 @@ export default function EventForm({
     resolver: zodResolver(eventSchema),
     defaultValues,
   })
+
+  // Esta es la función que llama a la API de Python
+  const generateDescription = async () => {
+    setIsLoading(true)
+
+    try {
+      const { title, summary } = watch()
+
+      if (!title || !summary) {
+        alert('Por favor, ingresa un título y un resumen primero.')
+        return
+      }
+
+      const res = await fetch('/api/generate-description', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ title, summary }),
+      })
+
+      if (!res.ok) {
+        throw new Error('Error al generar la descripción.')
+      }
+
+      const data = await res.json()
+
+      setValue('description', data.description)
+    } catch (error) {
+      console.error(error)
+      alert('Error al generar la descripción. Por favor, inténtalo de nuevo.')
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
@@ -103,6 +142,15 @@ export default function EventForm({
         error={errors.summary}
       />
 
+      {/* Nuevo botón para la generación con IA */}
+      <Button
+        label='Generar Descripción con IA'
+        onClick={generateDescription}
+        type='button'
+        variant={ButtonStyle.Outline}
+        icon={<Wand2 className='w-4 h-4' />}
+      />
+
       <TextAreaField
         name='description'
         label='Descripción del evento'
@@ -146,6 +194,7 @@ export default function EventForm({
           fullWidth={false}
         />
       </div>
+      <LoadingModal isOpen={isLoading} message='Generando descripción...' />
     </form>
   )
 }
