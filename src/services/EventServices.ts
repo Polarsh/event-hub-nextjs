@@ -49,6 +49,36 @@ export const fetchAllEvents = async (): Promise<Event[]> => {
   return events
 }
 
+// Función para obtener la lista de eventos filtrado
+export const fetchFilteredEvents = async (filters: any): Promise<Event[]> => {
+  const rawData = await httpHelper.post('/events/filtered', filters)
+
+  const events = rawData?.map((event: any) => formatEvent(event))
+
+  return events
+}
+
+// Función para obtener la lista de eventos desde tu API
+export const fetchEventSummary = async (): Promise<{
+  latestCreated: Event[]
+  upcomingEvents: Event[]
+}> => {
+  const rawData = await httpHelper.get('/events/summary')
+
+  // Mapea y formatea los eventos recientes
+  const latestCreated = rawData?.latestCreated?.map((event: any) =>
+    formatEvent(event)
+  )
+
+  // Mapea y formatea los eventos próximos
+  const upcomingEvents = rawData?.upcomingEvents?.map((event: any) =>
+    formatEvent(event)
+  )
+
+  // Devuelve el objeto con los dos arrays ya formateados
+  return { latestCreated, upcomingEvents }
+}
+
 // Función para obtener los eventos del usuario
 export const fetchMyEvents = async (): Promise<Event[]> => {
   const rawData = await httpHelper.get('/events/my-events')
