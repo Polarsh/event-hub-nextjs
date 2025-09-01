@@ -39,6 +39,11 @@ export const sidebarRoutes: SidebarRoute[] = [
     Icon: Calendar,
   },
   {
+    key: 'Mis Participaciones',
+    path: '/account/events/attendances',
+    Icon: Calendar,
+  },
+  {
     key: 'Crear Evento',
     path: '/account/events/create',
     Icon: Plus,

@@ -87,3 +87,12 @@ export const fetchMyEvents = async (): Promise<Event[]> => {
 
   return events
 }
+
+// Función para obtener los eventos del usuario
+export const fetchAttendingEvents = async (): Promise<Event[]> => {
+  const rawData = await httpHelper.get('/events/attendances')
+
+  const events = rawData?.map((event: any) => formatEvent(event))
+
+  return events
+}

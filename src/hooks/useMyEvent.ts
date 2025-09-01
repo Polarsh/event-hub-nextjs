@@ -3,7 +3,11 @@
 import { useQuery } from '@tanstack/react-query'
 
 import { useAuthenticator } from '@/context/AuthenticatorContext'
-import { fetchMyEvents, getEventDetail } from '@/services/EventServices'
+import {
+  fetchAttendingEvents,
+  fetchMyEvents,
+  getEventDetail,
+} from '@/services/EventServices'
 import type { Event } from '@/types/Event'
 import { useParams } from 'next/navigation'
 
@@ -35,8 +39,20 @@ export default function useEventView() {
     isError: isErrorMyEvents,
     error: errorMyEvents,
   } = useQuery<Event[]>({
-    queryKey: ['my-events-list'],
+    queryKey: ['my-events-list', currentUser],
     queryFn: fetchMyEvents,
+    enabled: !!currentUser,
+  })
+
+  // Consulta 3: Obtiene la lista de eventos donde voy asistir
+  const {
+    data: attendingEvents,
+    isPending: isPendingAttendingEvents,
+    isError: isErrorAttendingEvents,
+    error: errorAttendingEvents,
+  } = useQuery<Event[]>({
+    queryKey: ['attending-events', currentUser],
+    queryFn: fetchAttendingEvents,
     enabled: !!currentUser,
   })
 
@@ -49,5 +65,9 @@ export default function useEventView() {
     isPendingMyEvents,
     isErrorMyEvents,
     errorMyEvents,
+    attendingEvents: attendingEvents ?? [],
+    isPendingAttendingEvents,
+    isErrorAttendingEvents,
+    errorAttendingEvents,
   }
 }
