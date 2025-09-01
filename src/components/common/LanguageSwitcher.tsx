@@ -1,42 +1,20 @@
 'use client'
 
-import { usePathname } from '@/i18n/navigation'
-import { useState } from 'react'
+import { usePathname, useRouter } from '@/i18n/navigation'
 import Flag from 'react-world-flags'
 
 export default function LanguageSwitcher() {
+  const router = useRouter()
   const pathname = usePathname()
 
-  // Estado para controlar el idioma seleccionado
-  const [selectedLanguage, setSelectedLanguage] = useState(
-    pathname.startsWith('/en') ? 'en' : 'es'
-  )
-
-  // Función para cambiar el idioma y la ruta
+  // Función para cambiar el idioma
   const handleLanguageChange = (lang: string) => {
-    const newPathname = pathname.replace(/^\/(en|es)/, `/${lang}`)
-    setSelectedLanguage(lang)
-    window.location.href = newPathname // Redirigir a la nueva URL con el idioma seleccionado
+    // La función `router.push()` cambia la URL sin recargar la página
+    router.push(pathname, { locale: lang })
   }
 
   return (
     <div className='flex gap-4 items-center'>
-      {/* Selector con banderas */}
-      {/* <select
-        value={selectedLanguage}
-        onChange={e => {
-          handleLanguageChange(e.target.value)
-        }}
-        className='border rounded-md px-2 py-1'>
-        <option value='es' className='text-sm'>
-          <Flag code='ES' className='inline-block w-6 h-4 mr-2' /> Español
-        </option>
-        <option value='en' className='text-sm'>
-          <Flag code='US' className='inline-block w-6 h-4 mr-2' /> English
-        </option>
-      </select> */}
-
-      {/* Opción alternativa con iconos de banderas */}
       <div className='flex gap-2 items-center'>
         <div
           className='cursor-pointer'
