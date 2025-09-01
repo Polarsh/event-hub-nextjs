@@ -2,11 +2,11 @@
 
 import { useQuery } from '@tanstack/react-query'
 
-import { fetchMyEvents, getEventDetail } from '@/services/EventServices'
+import { fetchFilteredEvents, getEventDetail } from '@/services/EventServices'
 import type { Event } from '@/types/Event'
 import { useParams } from 'next/navigation'
 
-export default function useEvent() {
+export default function useEvent({ filters }: any) {
   const { id } = useParams()
 
   // Consulta 1: Obtiene el detalle de un evento
@@ -25,15 +25,17 @@ export default function useEvent() {
     enabled: !!id,
   })
 
-  // Consulta 2: Obtiene la lista de eventos del usuario logueado
+  // Consulta 2: Obtiene la lista de eventos
   const {
     data: eventList,
     isPending: isPendingEventList,
     isError: isErrorEventList,
     error: errorEventList,
   } = useQuery<Event[]>({
-    queryKey: ['event-list'],
-    queryFn: fetchMyEvents,
+    queryKey: ['event-list', filters],
+    queryFn: async () => {
+      return await fetchFilteredEvents(filters)
+    },
   })
 
   return {

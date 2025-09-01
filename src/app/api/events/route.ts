@@ -7,7 +7,11 @@ import { getUserIdFromToken } from '@/utils/auth'
 export async function GET() {
   try {
     await connectDB()
-    const events = await Event.find({})
+    const events = await Event.find({}).populate([
+      'creator',
+      'category',
+      'restriction',
+    ])
     return NextResponse.json(events, { status: 200 })
   } catch (error) {
     console.error(error)
