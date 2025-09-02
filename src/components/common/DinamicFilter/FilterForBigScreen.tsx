@@ -40,7 +40,7 @@ export default function FilterForBigScreen({
   }
 
   return (
-    <div className='w-full flex flex-col gap-6'>
+    <div className='hidden lg:flex w-full flex-col gap-6'>
       {/* Título */}
       <h2 className='text-h2 text-titleColor'>Filtros</h2>
 
