@@ -64,7 +64,7 @@ export default function Navbar() {
   }
 
   return (
-    <nav className='bg-backgroundColor text-white p-4 shadow-md sticky top-0 z-20'>
+    <nav className='bg-backgroundColor text-white p-4 shadow-md'>
       <div className='max-w-[1920px] mx-auto flex items-center justify-between'>
         {/* Logo */}
         <Link href='/' className='text-titleColor text-4xl font-bold'>

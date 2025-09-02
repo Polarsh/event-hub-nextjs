@@ -9,6 +9,7 @@ import { routing } from '@/i18n/routing'
 
 import Navbar from '@/components/common/NavBar'
 import ClientProvidersWrapper from '@/context/ClientProvidersWrapper'
+import Footer from '@/components/common/Footer'
 
 export const metadata: Metadata = {
   metadataBase: new URL(AppConfig.API_BASE_URL),
@@ -52,8 +53,19 @@ export default async function RootLayout({
       <body className='antialiased h-full'>
         <NextIntlClientProvider>
           <ClientProvidersWrapper>
-            <Navbar />
-            <div className='max-w-[1920px] mx-auto'>{children}</div>
+            {/* Este wrapper ES el contenedor que scrollea */}
+            <div className='flex h-full flex-col overflow-y-auto'>
+              {/* Navbar sticky dentro del MISMO contenedor que scrollea */}
+              <header className='sticky top-0 inset-x-0 z-50 bg-white/90 backdrop-blur'>
+                <Navbar />
+              </header>
+
+              <main className='flex-1'>
+                <div className='max-w-[1920px] mx-auto'>{children}</div>
+              </main>
+
+              <Footer />
+            </div>
           </ClientProvidersWrapper>
         </NextIntlClientProvider>
       </body>

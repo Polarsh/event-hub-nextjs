@@ -6,13 +6,16 @@ import { SidebarUser } from '@/components/common/SidebarUser'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className=' w-full h-full flex'>
-      <div className='w-[350px] h-full'>
+    <div className='w-full min-h-screen flex'>
+      {/* Sidebar sticky con top 80px y scroll interno */}
+      <aside className='w-[350px] md:sticky md:top-[72px] self-start md:h-[calc(100vh-72px)] overflow-y-auto'>
         <SidebarUser />
-      </div>
-      <div className='flex flex-grow'>
+      </aside>
+
+      {/* Contenido */}
+      <main className='flex-1'>
         <Page className='mx-auto w-full'>{children}</Page>
-      </div>
+      </main>
     </div>
   )
 }
