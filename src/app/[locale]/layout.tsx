@@ -11,10 +11,27 @@ import Navbar from '@/components/common/NavBar'
 import ClientProvidersWrapper from '@/context/ClientProvidersWrapper'
 
 export const metadata: Metadata = {
-  title: AppConfig.APP_NAME,
+  metadataBase: new URL(AppConfig.API_BASE_URL),
+  title: {
+    default: AppConfig.APP_NAME,
+    template: `%s | ${AppConfig.APP_NAME}`,
+  },
   description: AppConfig.APP_DESCRIPTION,
-  icons: {
-    icon: '/svgs/icon.svg',
+  icons: { icon: AppConfig.ICON_PATH },
+  alternates: { canonical: '/' },
+  openGraph: {
+    title: AppConfig.APP_NAME,
+    description: AppConfig.APP_DESCRIPTION,
+    url: '/',
+    siteName: AppConfig.APP_NAME,
+    type: 'website',
+    images: [AppConfig.ICON_PATH],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: AppConfig.APP_NAME,
+    description: AppConfig.APP_DESCRIPTION,
+    images: [AppConfig.ICON_PATH],
   },
 }
 
